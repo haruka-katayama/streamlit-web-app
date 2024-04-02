@@ -1,0 +1,17 @@
+runtime: python39  # Pythonのバージョン指定
+
+instance_class: F2  # インスタンスのクラス（F2は標準的なクラス）
+
+env_variables:
+  BUCKET_NAME: "example-gcs-bucket"  # 環境変数（ここではGoogle Cloud Storageのバケット名を例としています）
+
+# Streamlit特有のエントリポイント設定
+entrypoint: streamlit run app.py --server.port $PORT --server.enableCORS false --server.enableXsrfProtection false
+
+# 静的ファイルのハンドラは App Engine スタンダード環境用であるため、
+# Streamlitでは通常は不要です。
+# しかし、静的ファイルを扱いたい場合には残しておくことができます。
+handlers:
+  # このハンドラーはスタンダード環境での静的ファイル配信に使用します。
+  - url: /images
+    static_dir: static/images
